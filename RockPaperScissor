@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Let's play Rock, Paper, Scissors!"); // welcome message
+            String play1 = getPlayerMove(scanner, "Player 1"); // initialize variable
+            String play2 = getPlayerMove(scanner, "Player 2"); // initialize variable
+
+            String result = determineWinner(play1, play2); // Determine winner
+            System.out.println(result); // result of game
+
+            while (true) {
+                System.out.print("Do you want to play again? (Y/N): "); // ask to play again
+                String playAgain = scanner.next().trim().toUpperCase(); // user input answer
+                if (playAgain.equals("Y") || playAgain.equals("N")) {
+                    if (playAgain.equals("N")) { //if user types "N" it'll exit program
+                        System.out.println("Thanks for playing!");
+                        scanner.close();
+                        return;
+                    }
+                    break; // break out of loop if user types "Y"
+                }
+                else { // if user types anything else it'll ask to type either "Y" or "N"
+                    System.out.println("Invalid input! Please enter Y or N.");
+                }
+            }
+        }
+    }
+
+    public static String getPlayerMove(Scanner scanner, String player) {
+        while (true) {
+            System.out.print(player + ", enter your move (R/P/S): "); // asks user to enter move
+            String move = scanner.next().toUpperCase(); // user input
+            if (move.equals("R") || move.equals("P") || move.equals("S")) {
+                return move; //validate move
+            }
+            else {
+                System.out.println("Invalid move! Please enter R, P, or S."); // invalid move response
+            }
+        }
+    }
+
+    public static String determineWinner(String play1, String play2) {
+        if (play1.equals(play2)) {
+            return play1 + " v " + play2 + "! It's a Tie!"; // same move made by both players
+        }
+        else if ((play1.equals("R") && play2.equals("S")) | // all of player 1's possible wins
+                (play1.equals("P") && play2.equals("R")) |
+                (play1.equals("S") && play2.equals("P"))) {
+            return "Player 1 wins!";
+        }
+        else {
+            return "Player 2 wins!"; // every other valid response is player 2 wins
+        }
+    }
+}
