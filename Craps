@@ -1,0 +1,83 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        System.out.println("Let's play a game of Craps!"); // welcome
+
+        while (true)
+        {
+            // prompt user to press enter to roll the dice
+            System.out.println("Press enter to roll the dice.");
+            waitForEnter(scanner);
+
+            // dice roll
+            int dice1 = rollDie(random);
+            int dice2 = rollDie(random);
+            int sum = dice1 + dice2; // the sum of each die
+            System.out.println("You rolled: " + dice1 + " + " + dice2 + " = " + sum); // output of dice result
+
+            if (sum == 2 || sum == 3 || sum == 12) { // check for a loss
+                System.out.println("Craps! You lose!"); // result of dice roll is a loss
+            }
+            else if (sum == 7 || sum == 11) { // check for a win
+                System.out.println("Natural! You win!"); // result of dice roll is a win
+            }
+            else {
+                System.out.println("Point is set to " + sum); //anything else is a point
+                int point = sum; // set point
+
+                while (true) {
+                    // Prompt user to press enter for subsequent rolls
+                    System.out.println("Press enter to roll again."); //prompt user to press enter again
+                    waitForEnter(scanner); // user press enter
+                    //roll dice again
+                    dice1 = rollDie(random);
+                    dice2 = rollDie(random);
+                    sum = dice1 + dice2; //sum of each die
+                    System.out.println("You rolled: " + dice1 + " + " + dice2 + " = " + sum); //dice result output
+
+                    if (sum == point) { // check if point is made
+                        System.out.println("Made point! You win!"); // point was made
+                        break; // exit loop
+                    }
+                    else if (sum == 7) { // check for loss
+                        System.out.println("Seven out! You lose!"); // result of loss
+                        break; // exit loop
+                    }
+                    else { // any other result keeps rolling
+                        System.out.println("Trying for point..."); // trying for point
+                    }
+                }
+            }
+
+            // Prompt to play again
+            while (true) {
+                System.out.print("Do you want to play again? (Y/N): "); // asks to play again
+                String playAgain = scanner.next().trim().toUpperCase(); // read user input
+                if (playAgain.equals("Y")) { // check for user input "Y"
+                    break; // continue to play again
+                }
+                else if (playAgain.equals("N")) { //// check for user input "N"
+                    System.out.println("Thanks for playing!"); // prompt before exiting
+                    return; // exit program
+                }
+                else {
+                    System.out.println("Invalid input! Please enter Y or N."); // asks to give valid input
+                }
+            }
+        }
+    }
+    // making the dice
+    public static int rollDie(Random random) {
+        return random.nextInt(6) + 1; // chooses random number between 1 and 6
+    }
+    // method to wait for the user to press enter
+    public static void waitForEnter(Scanner scanner) {
+        scanner.nextLine();
+    }
+}
